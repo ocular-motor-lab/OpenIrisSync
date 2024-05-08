@@ -1,15 +1,11 @@
-% 
-%This script will load the data from the event and camera events to create
-%plots that evaluate hardware syncing.
-
-%ASSUMPTIONS
-% - I am assuming the openiris events determine the start and end of each trial
+%This script will load the data from the screen event and camera events to create
+%plots that evaluate hardware syncing. The script assumes that the OpenIris events determine the start and end of each trial
 
 %% Processing data
-%Turn files from OpenIris output into matlab files. It will prompt you to
-%identify the location of the eye tracking data collected.
-%click on any text file in the eye tracking data folder to continue.
-Processing_data; 
+% Ths step turns the files from OpenIris output into matlab files. It will prompt you to
+% identify the location of the eye tracking data collected.
+% Click on any text file in the eye tracking data folder to continue.
+Processing_OpenIris_data; 
 
 if isequal(file,0)
     return;
