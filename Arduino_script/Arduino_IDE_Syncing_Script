@@ -1,13 +1,13 @@
-// This script will can be uploaded onto an Arduino set up with a phototransistor
-// to send triggers 
-// A button will begin and end the serial recording of a phototransistor
+// This script can be uploaded onto an Arduino set up with a phototransistor (as described in the wiki)
+// to send triggers whenever the illumination on the phototransistor exceeds a certain level.
+// A button press will begin and end the serial recording of a phototransistor
 // For now, a threshold will be manually set and a green light will light
 // up when the threshold has been passed. This will represent the signal going 
 // to the eye tracking cameras. 
 
 const int photosensorPin = A0; // pin that collects output from phototransistor
 int photosensorVal = 0; // value to store the reading from the phototransistor
-int threshold = 20; // hardcoded threshold that you can change if your screen is very dim
+int threshold = 20; // hardcoded threshold that you can change to acheive clean triggers in your set up
 
 void setup() {
   // Set up code that only runs once
