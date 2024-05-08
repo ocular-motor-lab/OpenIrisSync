@@ -2,13 +2,13 @@ clear all;
 AssertOpenGL;
 
 % This demo simulates an experiment that you might want to run to measure
-% the optokinetic response and incorporates hardware syncing. Horizontally 
+% the optokinetic response and incorporate hardware syncing. Horizontally 
 % moving dots are presented and a white square is presented at the bottom
 % of the screen for one frame at the beginning and end of each trial. This 
 % script produces a figure of the seral output of the phototransistor 
-% during the several trials.There are event flags for OpenIris that are 
+% during the trials. There are event flags for OpenIris that are 
 % also placed before and after the first and last flip of each trial. This 
-% can be used for hardwear syncing. No need to calibrate to run the code. 
+% can be used for hardware syncing. No need to calibrate to run the code. 
 % Note that the serial output is recorded for a set number of data points
 % so it will begin and end recording the serial output before and after the 
 % stimulus is presented.
@@ -24,32 +24,37 @@ AssertOpenGL;
 % (3) Check/change the hardcoded values below.
 
 % Hard coded values that you will need to define for your set up
-%screen width and height 
-ds.height_m = 0.2975; 
-ds.width_m  = 0.5345;
-% Needed for caluclating pixel/deg
-ds.DistToScreen  = 0.4; %hardcoded may not be correct for every set up.
-ds.frame_rate_Hz = 120;
-%Arduino seral port
-APort = "COM3"; %change this to change the port
+% screen width and height
+ds.height_m       = 0.2975; 
+ds.width_m        = 0.5345;
+ds.frame_rate_Hz   = 120;
+
+% Screen distance, needed for calculating pixel/deg
+ds.DistToScreen  = 0.4; 
+
+% Arduino serial port
+APort = "COM3"; % change this to change the port
+
+% Demo experiment variables
+session_name = 'TEST'; % Name of the session file
+data.trials = 4; % number of trials
 
 
 %% Set up Arduino serial port
-%Trouble shooting: you may have to close and reopen arduino or MATLAB if it
-%is not functioning properly. 
+% Trouble shooting: you may have to close and reopen ArduinoIDE  or MATLAB if it
+% is not functioning properly. 
 
 % to get a list of the serial ports if needed
-%serialportlist("available") or serialportlist
+% serialportlist("available") or serialportlist
 
 % specify serial port for matlab and initializing a structure to store data
 if ~exist('arduinoObj','var')
-   
     arduinoObj = serialport(APort,9600);
 end
 
-configureTerminator(arduinoObj,"CR/LF"); %telling MATLAB when line is terminated
+configureTerminator(arduinoObj,"CR/LF"); % telling MATLAB when line is terminated
 
-%Flush the serialport object to remove any old data.
+% Flush the serialport object to remove any old data.
 flush(arduinoObj);
 
 % make a data structure that includes the serial output data and a counter
@@ -59,8 +64,8 @@ arduinoObj.UserData = struct("Data",[],"Count",1);
 %% Skip Sync test
 Screen('Preference', 'SkipSyncTests', 1); 
 
-screens=Screen('Screens');
-screenNumber=max(screens);
+screens      = Screen('Screens');
+screenNumber = max(screens);
 [ds.w, ds.windowRect] = Screen('OpenWindow', screenNumber, 0);
 
 %screen dimensions
@@ -75,19 +80,17 @@ pixdeg        = ((screenHeight_px ./ ds.height_deg) + (screenHeight_px./ds.width
 %Alpha blending for dots
 Screen('BlendFunction', ds.w,'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 
-%Number of trials
-data.trials = 4;
-
 %% Variables for white square presentation
 
-%Calculate dimentions of the stimulus
+% Calculate dimensions of the stimulus
 ppm =( (screenWidth_px ./ ds.width_m) + (screenHeight_px ./ ds.height_m) )./2; %pixels per meter
 
-%calculate the width of the square in pixels
+% Calculate the width of the square in pixels
 wsquareWidth_m      = 0.01; 
 wsquareDistFromEdge = 0.015;
 wsquareFarEdge      = wsquareDistFromEdge + wsquareWidth_m;
-% Define the square position at the bottom of the screen in pixels
+
+% Define the square position at the bottom left of the screen in pixels
 wsquareLeft   = round(wsquareDistFromEdge * ppm); % x coordinat of the left edge
 wsquareTop    = screenHeight_px - round(wsquareFarEdge * ppm); % y coordinate of the top edge
 wsquareRight  = round(wsquareFarEdge * ppm); % x coordinate of right edge
@@ -98,7 +101,7 @@ ksquareWidth_m      = 0.037;
 ksquareDistFromEdge = 0;
 ksquareFarEdge      = ksquareDistFromEdge + ksquareWidth_m;
 
-%Define large black square that surrounds the white square.
+% Define large black square that surrounds the white square.
 ksquareLeft   = round(ksquareDistFromEdge * ppm); % x coordinat of the left edge
 ksquareTop    = screenHeight_px - round(ksquareFarEdge * ppm); % y coordinate of the top edge
 ksquareRight  = round(ksquareFarEdge * ppm); % x coordinate of right edge
@@ -107,13 +110,13 @@ ksquareBottom = screenHeight_px - (ksquareDistFromEdge * ppm); % y coordinate of
 
 %% Set up eyetracking
 
-    v = ArumeHardware.VOG();
-    v.Connect();
+v = ArumeHardware.VOG();
+v.Connect();
 
-    % set the session name (affects the name of the files being recorded)
-    v.SetSessionName('TEST'); %Here you can change the name of the file
+% set the session name (affects the name of the files being recorded)
+v.SetSessionName(session_name); 
 
-    v.StartRecording(); %begins the recording.
+v.StartRecording(); % begins the recording.
 
 %% Dot specifications
 
@@ -144,7 +147,7 @@ dots          = [reshape(x_dots_jit,1,[]); reshape(y_dots_jit,1,[])];
 
 %% Start arduino serial recording
 
-configureCallback(arduinoObj,"terminator",@readData); %after next terminator read the data in arduinoObj
+configureCallback(arduinoObj,"terminator",@readData); % after next terminator read the data in arduinoObj
 % @ puts the arduino object into readData
 
 %% Stimulus presentation
@@ -157,14 +160,14 @@ for trial = 1:data.trials
     Fix_dur_sec = 1;
     StartTime   = GetSecs;
     TimeNow     = GetSecs;
-    
+
+    % start with a black screen
     while TimeNow <= StartTime + Fix_dur_sec
-        %black screen
-        Screen('FillRect',ds.w,[0,0,0])%you can use this if you want a black background
-        %flip screen
+        % black screen
+        Screen('FillRect',ds.w,[0,0,0]) 
+        % flip screen
         Screen('DrawingFinished', ds.w);
         [StartFlip_s, OnsetTime,EndFlip_s, Missed, Beampos] = Screen('Flip', ds.w,[],[],[]);
-
         TimeNow = GetSecs;
     end
 
@@ -184,7 +187,7 @@ for trial = 1:data.trials
         Screen('FillRect', ds.w, [0,0,0], [ksquareLeft, ksquareTop, ksquareRight, ksquareBottom]);
 
         %if first or last frame the white square will be drawn and the
-        %OpenIris event flags will be drawn. 
+        % OpenIris event flags will be drawn. 
         if f_counter == 1 || f_lastflag == 1
 
             %white square calibration
@@ -196,25 +199,21 @@ for trial = 1:data.trials
             Screen('Flip', ds.w,[],[],[]);
             v.RecordEvent('AfterStimON'); %eye tracking flag
 
-
         else
 
             Screen('DrawingFinished', ds.w);
-
             Screen('Flip', ds.w,[],[],[]);
 
         end
 
-        %Move dots
-        %change the x coordinate
+        % Move dots (change the x coordinate)
         dots(1,:) = dots(1,:) + dot_speed_pix_frame;
 
-        %if the dots go off the screen, put them back on the other side
+        % If the dots go off the screen, put them back on the other side
         if find(dots(1,:)>ds.windowRect(3))
 
-            idx         = find(dots(1,:)>ds.windowRect(3)); %positions where dots are off the screen
-
-            dots(1,idx) = 5; %start the position at this many pixels on the other side of thes screen
+            idx         = find(dots(1,:)>ds.windowRect(3)); % positions where dots are off the screen
+            dots(1,idx) = 5; % start the position at this many pixels on the other side of thes screen
         end
 
         % Break out of animation loop if any key on keyboard or any button
@@ -265,14 +264,13 @@ plot(x_sec,UserData); hold on;
 xlabel('Number of samples from Arduino');
 ylabel('Arbitrary unit of light intensity');
 
-
 % resets keyboard control and close windows 
 ListenChar(1);
 sca;
 
 
 %% Function 
-%Colect serial output of phototransistor during the experiment. 
+% Collect serial output of phototransistor during the experiment. 
 
 function readData(src, ~)
 
@@ -288,7 +286,7 @@ src.UserData.Count = src.UserData.Count + 1;
 
 % If a certain number data points have been collected from the Arduino, switch off the
 % callbacks and plot the data.
- if src.UserData.Count > 8000 %number of data points collected.
+ if src.UserData.Count > 8000 % number of data points collected.
    configureCallback(src, "off");
   end
 end
