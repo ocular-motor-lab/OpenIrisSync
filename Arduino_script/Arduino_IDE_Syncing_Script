@@ -11,7 +11,8 @@ int threshold = 20; // hardcoded threshold that you can change to acheive clean 
 
 void setup() {
   // Set up code that only runs once
- Serial.begin(9600); // open a serial port b/w Arduino and computer. 9600 is the speed of communication
+  // this sets the baud rate which needs to be consistent with the same as that listed in the MATLAB code.
+ Serial.begin(57600); // open a serial port b/w Arduino and computer. 9600 is the speed of communication
 
  // State the digital pins being used 
  pinMode(6, OUTPUT); // the threshold light
