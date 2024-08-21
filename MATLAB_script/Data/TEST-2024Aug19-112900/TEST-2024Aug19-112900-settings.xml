@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EyeTrackerSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EyeTrackerSystem>Spinnaker Dual Camera</EyeTrackerSystem>
+  <EyeTrackingPipeline>JOM</EyeTrackingPipeline>
+  <CalibrationMethod>Manual Calibration</CalibrationMethod>
+  <MaxNumberOfProcessingThreads>1</MaxNumberOfProcessingThreads>
+  <Debug>false</Debug>
+  <BufferSize>100</BufferSize>
+  <SessionName>TEST</SessionName>
+  <DataFolder>C:\Users\opt-omlab\Desktop\Iona Demo\OpenIris_Syncing\FINAL_Code\Data</DataFolder>
+  <LastRecordedFile>C:\Users\opt-omlab\Desktop\Iona Demo\OpenIris_Syncing\FINAL_Code\Data\TEST-2024Aug19-112900\TEST-2024Aug19-112900.txt</LastRecordedFile>
+  <RecordVideo>false</RecordVideo>
+  <DecimateVideoRatio>1</DecimateVideoRatio>
+  <TraceSpan>5</TraceSpan>
+  <ServiceListeningPort>9000</ServiceListeningPort>
+  <LastVideoEyeTrackerSystem />
+  <LastVideoFolder />
+  <AllEyeTrackerSystemSettings>
+    <item>
+      <key>
+        <string>Simulation</string>
+      </key>
+      <value>
+        <EyeTrackingSystemSettings>
+          <PixPerMm>6</PixPerMm>
+          <DistanceCameraToEyeMm>50</DistanceCameraToEyeMm>
+          <FrameRate>100</FrameRate>
+          <Eye>Both</Eye>
+        </EyeTrackingSystemSettings>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Spinnaker Dual Camera</string>
+      </key>
+      <value>
+        <EyeTrackingSystemSettings xsi:type="EyeTrackingSystemSettingsSpinnaker_DualCam">
+          <PixPerMm>12</PixPerMm>
+          <DistanceCameraToEyeMm>70</DistanceCameraToEyeMm>
+          <FrameRate>250</FrameRate>
+          <Eye>Both</Eye>
+          <LeftEyeCameraSerialNumber>23211853</LeftEyeCameraSerialNumber>
+          <RightEyeCameraSerialNumber>23211855</RightEyeCameraSerialNumber>
+          <Gain>1</Gain>
+          <LeftOffset>
+            <X>0</X>
+            <Y>140</Y>
+          </LeftOffset>
+          <RightOffset>
+            <X>168</X>
+            <Y>204</Y>
+          </RightOffset>
+        </EyeTrackingSystemSettings>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>SimulationFakeEye</string>
+      </key>
+      <value>
+        <EyeTrackingSystemSettings>
+          <PixPerMm>6</PixPerMm>
+          <DistanceCameraToEyeMm>50</DistanceCameraToEyeMm>
+          <FrameRate>100</FrameRate>
+          <Eye>Both</Eye>
+        </EyeTrackingSystemSettings>
+      </value>
+    </item>
+  </AllEyeTrackerSystemSettings>
+  <AllTrackingPipelinesSettings>
+    <item>
+      <key>
+        <string>JOM</string>
+      </key>
+      <value>
+        <EyeTrackingPipelineSettings xsi:type="EyeTrackingPipelineJOMSettings">
+          <CroppingLeftEye>
+            <Location>
+              <X>0</X>
+              <Y>0</Y>
+            </Location>
+            <Size>
+              <Width>0</Width>
+              <Height>0</Height>
+            </Size>
+            <X>0</X>
+            <Y>0</Y>
+            <Width>0</Width>
+            <Height>0</Height>
+          </CroppingLeftEye>
+          <CroppingRightEye>
+            <Location>
+              <X>0</X>
+              <Y>0</Y>
+            </Location>
+            <Size>
+              <Width>0</Width>
+              <Height>0</Height>
+            </Size>
+            <X>0</X>
+            <Y>0</Y>
+            <Width>0</Width>
+            <Height>0</Height>
+          </CroppingRightEye>
+          <DarkThresholdLeftEye>36</DarkThresholdLeftEye>
+          <DarkThresholdRightEye>31</DarkThresholdRightEye>
+          <BrightThresholdLeftEye>175</BrightThresholdLeftEye>
+          <BrightThresholdRightEye>158</BrightThresholdRightEye>
+          <MinPupRadmm>1.2</MinPupRadmm>
+          <MaxPupRadmm>7.05</MaxPupRadmm>
+          <MinCRRadmm>0.3</MinCRRadmm>
+          <MaxCRRadmm>4.95</MaxCRRadmm>
+          <UseGeometricTransformation>true</UseGeometricTransformation>
+          <PupilTrackingMethod>Blob</PupilTrackingMethod>
+          <PositionTrackingMethod>ConvexHull</PositionTrackingMethod>
+          <CornealReflectionTrackingMethod>Blob</CornealReflectionTrackingMethod>
+          <EyelidTrackingMethod>None</EyelidTrackingMethod>
+          <CalculateTorsion>true</CalculateTorsion>
+          <IrisRadiusPixLeft>127.5</IrisRadiusPixLeft>
+          <IrisRadiusPixRight>150</IrisRadiusPixRight>
+          <MaxIrisRadmm>15</MaxIrisRadmm>
+          <TorsionImageIrisWidth>80</TorsionImageIrisWidth>
+          <TorsionAngularResolution>1</TorsionAngularResolution>
+          <TorsionInterpolation>50</TorsionInterpolation>
+          <TorsionSobelFilterSize>4</TorsionSobelFilterSize>
+          <MaxTorsion>25</MaxTorsion>
+        </EyeTrackingPipelineSettings>
+      </value>
+    </item>
+  </AllTrackingPipelinesSettings>
+  <AllCalibrationImplementations>
+    <item>
+      <key>
+        <string>Auto</string>
+      </key>
+      <value>
+        <CalibrationSettings />
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>Manual Calibration</string>
+      </key>
+      <value>
+        <CalibrationSettings />
+      </value>
+    </item>
+  </AllCalibrationImplementations>
+</EyeTrackerSettings>
