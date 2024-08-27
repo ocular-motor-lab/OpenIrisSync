@@ -3,7 +3,7 @@
 % the average eye positions across the trials with the onset specified by
 % the hardware or software stimulus onset estimate. 
 
-% Calcualte the sample rate of the camera
+% Calculate the sample rate of the camera
 bw_frames_sec  = mean(diff(Events_camera.LeftSeconds)); %average time between frames
 cameraRate_hz  = 1./bw_frames_sec;
 
@@ -129,8 +129,15 @@ end
 
 % Print average difference between hardware and software estimated stimulus
 % onset and offset times.
-disp(['Difference in hardware and software syncing (ms) =',num2str(mean([StartDiff_ms]))]);
+disp(['Difference in hardware and software synching (ms) =',num2str(mean([StartDiff_ms])),'+/- ',num2str(std([StartDiff_ms]))]);
 
+% Plot a histogram of the differences in estimated onset time based on the
+% hradware and the software. 
+figure, hold on;
+title('Difference in hardware and software synching')
+hist(StartDiff_ms);
+xlabel('Difference (ms)');
+ylabel('Frequency');
 
 %% Plot eye position and velocity based on hardware or software stimulus onset
 % I first plot position and then velocity of the eye movements to obesrve
