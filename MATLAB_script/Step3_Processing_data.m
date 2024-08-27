@@ -36,7 +36,6 @@ if ~contains(file,'event')
     % The string of the data file
     file_camera    = file;
 
-    % Name of file for camera events
 elseif contains(file,'event')
 
     % Identfy the name of the camera event file
